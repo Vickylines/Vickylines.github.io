@@ -38,7 +38,7 @@ Fluid.plugins = {
   fancyBox: function(selector) {
     if (!CONFIG.image_zoom.enable || !('fancybox' in jQuery)) { return; }
 
-    jQuery(selector || '.markdown-body :not(a) > img, .markdown-body > img').each(function() {
+    jQuery(selector || '.markdown-body :not(a) > img, .markdown-body > img, .about-avatar > img').each(function() {
       var $image = jQuery(this);
       var imageUrl = $image.attr('data-src') || $image.attr('src') || '';
       if (CONFIG.image_zoom.img_url_replace) {

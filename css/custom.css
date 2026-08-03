@@ -1,0 +1,20 @@
+#navbar .navbar-nav .nav-link {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-shadow: 0 1px 8px rgba(255, 255, 255, 0.18);
+}
+
+#navbar .navbar-nav .nav-link:hover span {
+  color: #ffd166;
+}
+
+.about-avatar img {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.about-avatar img:hover {
+  transform: scale(1.06);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+}
