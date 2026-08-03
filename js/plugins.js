@@ -18,7 +18,12 @@ Fluid.plugins = {
       ],
       cursorChar: CONFIG.typing.cursorChar,
       typeSpeed : CONFIG.typing.typeSpeed,
-      loop      : CONFIG.typing.loop
+      loop      : CONFIG.typing.loop,
+      onComplete: function(instance) {
+        if (!CONFIG.typing.loop && instance.cursor) {
+          instance.cursor.style.visibility = 'hidden';
+        }
+      }
     });
     typed.stop();
     var subtitle = document.getElementById('subtitle');
