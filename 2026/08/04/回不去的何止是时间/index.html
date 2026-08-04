@@ -27,7 +27,7 @@
 <meta property="og:description" content="為什麼這樣子 你拉著我 說你有些猶豫 怎麼這樣子 雨還沒停你就撐傘要走   已經習慣不去阻止你 過好一陣子你就會回來 印象中的愛情好像頂不住那時間   為什麼這樣子 你看著我 說你已經決定 我拉不住你 他的手應該比我更暖   鐵盒的序變成了日記 變成了空氣演化成回憶 印象中的愛情好像頂不住那時間 所以你棄權       悟已往之不諫，知來者之可追           🔒 此图片已被加密">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-08-03T18:07:08.000Z">
-<meta property="article:modified_time" content="2026-08-04T05:09:47.802Z">
+<meta property="article:modified_time" content="2026-08-04T07:05:04.392Z">
 <meta property="article:author" content="hpkp">
 <meta property="article:tag" content="emotion">
 <meta property="article:tag" content="love">
@@ -332,7 +332,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          964 字
+          972 字
         
       </span>
     
@@ -424,7 +424,7 @@
   
   <!-- 解锁后显示的图片区域 -->
   <div id="img-box" style="display: none; margin-top: 15px;">
-    <img id="real-img" src="" srcset="/img/loading.gif" lazyload alt="加密图片" style="max-width: 100%;">
+    <img id="real-img" src="" srcset="/img/loading.gif" lazyload alt="第一次聚会 拍摄于2025.10.19 15:36" style="max-width: 100%;">
   </div>
 </div>
 
@@ -434,7 +434,7 @@ function unlockImage() {
   // 1. 在这里设置你的自定义密码（比如 123456）
   if (pwd === "yusdlovechenhw") {
     // 2. 密码正确，注入真实的图片路径
-    document.getElementById('real-img').src = "/img/回不去的何止是时间2.png";
+    document.getElementById('real-img').src = "/img/回不去的何止是时间1.png";
     document.getElementById('img-box').style.display = "block";
     document.getElementById('pwd-error').style.display = "none";
   } else {
@@ -452,30 +452,31 @@ function unlockImage() {
 
 
 
-
-<div id="secret-img-container" style="text-align: center; padding: 20px; border: 1px dashed #ccc; border-radius: 8px;">
+<div id="secret-img-container-2" style="text-align: center; padding: 20px; border: 1px dashed #ccc; border-radius: 8px; margin: 20px 0;">
   <p>🔒 <b>此图片已被加密</b></p>
-  <input type="password" id="img-pwd" placeholder="请输入查看密码" style="padding: 5px 10px; border-radius: 4px; border: 1px solid #ccc;">
-  <button onclick="unlockImage()" style="padding: 5px 15px; background: #2f4154; color: #fff; border: none; border-radius: 4px; cursor: pointer;">解锁图片</button>
-  <p id="pwd-error" style="color: red; display: none; margin-top: 10px;">密码错误！</p>
+  <input type="password" id="img-pwd-2" placeholder="请输入查看密码" style="padding: 5px 10px; border-radius: 4px; border: 1px solid #ccc;">
+  <button onclick="unlockImage2()" style="padding: 5px 15px; background: #2f4154; color: #fff; border: none; border-radius: 4px; cursor: pointer;">解锁图片</button>
+  <p id="pwd-error-2" style="color: red; display: none; margin-top: 10px;">密码错误！</p>
   
   <!-- 解锁后显示的图片区域 -->
-  <div id="img-box" style="display: none; margin-top: 15px;">
-    <img id="real-img" src="" srcset="/img/loading.gif" lazyload alt="加密图片" style="max-width: 100%;">
+  <div id="img-box-2" style="display: none; margin-top: 15px;">
+    <p align="center">
+      <img id="real-img-2" src="" srcset="/img/loading.gif" lazyload alt="最后一次聚餐 拍摄于2026.04.21 21:00" style="max-width: 100%;">
+    </p>
   </div>
 </div>
 
 <script>
-function unlockImage() {
-  var pwd = document.getElementById('img-pwd').value;
-  // 1. 在这里设置你的自定义密码（比如 123456）
+function unlockImage2() {
+  var pwd = document.getElementById('img-pwd-2').value;
+  // 1. 在这里替换你设定的密码（目前默认是 123456）
   if (pwd === "yusdlovechenhw") {
-    // 2. 密码正确，注入真实的图片路径
-    document.getElementById('real-img').src = "/img/回不去的何止是时间1.png";
-    document.getElementById('img-box').style.display = "block";
-    document.getElementById('pwd-error').style.display = "none";
+    // 2. 密码正确，加载图片
+    document.getElementById('real-img-2').src = "/img/回不去的何止是时间2.png";
+    document.getElementById('img-box-2').style.display = "block";
+    document.getElementById('pwd-error-2').style.display = "none";
   } else {
-    document.getElementById('pwd-error').style.display = "block";
+    document.getElementById('pwd-error-2').style.display = "block";
   }
 }
 </script>
