@@ -1,0 +1,42 @@
+:root { --og-scene-duration: 1.5s; }
+
+/* 首屏折叠菜单始终使用深色玻璃材质，避免开灯模式在暗色 Hero 上出现白色方块。 */
+#navbar-toggler-btn.navbar-toggler,
+#navbar-toggler-btn.navbar-toggler:hover,
+#navbar-toggler-btn.navbar-toggler:focus,
+#navbar-toggler-btn.navbar-toggler:active {
+  border: 1px solid rgb(224 250 255 / 16%);
+  border-top-color: rgb(244 253 255 / 76%);
+  border-radius: 16px;
+  color: #eefcff;
+  background: linear-gradient(180deg, rgb(10 26 36 / 98%), rgb(5 17 25 / 96%));
+  box-shadow: 0 12px 28px rgb(0 4 10 / 24%), inset 0 1px 0 rgb(255 255 255 / 5%);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+#navbar-toggler-btn.navbar-toggler:focus:not(:focus-visible) { outline: none !important; }
+
+#navbar-toggler-btn.navbar-toggler:focus-visible {
+  outline: 2px solid rgb(var(--og-live-phase-rgb) / 68%) !important;
+  outline-offset: 3px;
+}
+
+.navbar #navbar-toggler-btn.navbar-toggler .animated-icon span {
+  height: 1px;
+  background: #eefcff;
+  border-radius: 999px;
+}
+
+/* 桌面叙事后景保持 19%；手机降低到 15%，避免窄屏与大号中文标题叠得过重。 */
+.og-hero[data-scene="entering"] .og-hero-copy,
+.og-hero[data-scene="analysis"] .og-hero-copy {
+  opacity: .19;
+}
+
+@media (max-width: 767.98px) {
+  .og-hero[data-scene="entering"] .og-hero-copy,
+  .og-hero[data-scene="analysis"] .og-hero-copy {
+    opacity: .15;
+  }
+}

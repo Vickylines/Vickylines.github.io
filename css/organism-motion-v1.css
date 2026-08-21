@@ -1,0 +1,79 @@
+:root { --og-ui-ease: cubic-bezier(.22, .72, .24, 1); }
+
+@keyframes og-menu-button-open {
+  0% { transform: scale(1); }
+  28% { transform: scale(.9); }
+  57% { transform: scale(1.065); }
+  77% { transform: scale(.978); }
+  100% { transform: scale(1); }
+}
+
+@keyframes og-menu-button-close {
+  0% { transform: scale(1); }
+  28% { transform: scale(.9); }
+  57% { transform: scale(1.065); }
+  77% { transform: scale(.978); }
+  100% { transform: scale(1); }
+}
+
+/* 普通内容只做一次平顺揭示，不越过终点，也不在滚动往返时重新上膛。 */
+.og-reveal {
+  transition:
+    opacity .48s ease-out var(--og-delay, 0ms),
+    transform .56s var(--og-ui-ease) var(--og-delay, 0ms);
+}
+
+/* 悬停轻抬和短促按压保留，但统一改为不越界的缓动。 */
+.og-button,
+.pulse-button,
+.pulse-submit,
+.og-toc-toggle,
+#scroll-top-button,
+#modalSearch .close,
+.pagination .page-link,
+#search-btn .nav-link,
+#color-toggle-btn .nav-link,
+.index-card,
+.og-route-card,
+.og-route-switcher a,
+#board .list-group > .list-group-item,
+#board .tagcloud a,
+#board .category-list .category.row,
+#toc .toc-link,
+.pulse-comment-form textarea,
+#local-search-result .list-group-item {
+  transition-timing-function: var(--og-ui-ease) !important;
+}
+
+/* 右上角按钮、菜单面板和菜单项继续使用原来的弹性语言。 */
+#navbar-toggler-btn.navbar-toggler,
+#mobile-grid-menu,
+#mobile-grid-menu .mobile-grid-item {
+  transition-timing-function: var(--og-spring);
+}
+
+#mobile-grid-menu .mobile-grid-item.og-tap-pop {
+  animation: og-qq-tap .56s var(--og-spring);
+}
+
+/* aria-expanded 从首次点击起就会切换；用不同动画名确保开、关两次都可靠重播。 */
+#navbar-toggler-btn.navbar-toggler.og-menu-interacted[aria-expanded="true"] {
+  animation: og-menu-button-open .56s var(--og-spring);
+}
+
+#navbar-toggler-btn.navbar-toggler.og-menu-interacted[aria-expanded="false"] {
+  animation: og-menu-button-close .56s var(--og-spring);
+}
+
+#mobile-grid-menu.show .mobile-grid-item {
+  animation: og-spring-in .72s var(--og-spring) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #navbar-toggler-btn.navbar-toggler,
+  #mobile-grid-menu,
+  #mobile-grid-menu .mobile-grid-item {
+    animation: none !important;
+    transition-duration: .01ms !important;
+  }
+}

@@ -1,0 +1,114 @@
+/* 四阶段叙事形态：只使用 opacity 与 transform，保持衔接顺滑且不增加全屏模糊负担。 */
+:root {
+  --og-scene-duration: 1s;
+  --og-scene-ease: cubic-bezier(.16, 1, .3, 1);
+}
+
+.og-hero-copy,
+.og-hero-hud--side,
+.og-hero-stats {
+  transition:
+    opacity var(--og-scene-duration) var(--og-scene-ease),
+    transform var(--og-scene-duration) var(--og-scene-ease);
+}
+
+.og-sentience-panel {
+  transition:
+    opacity var(--og-scene-duration) var(--og-scene-ease),
+    transform var(--og-scene-duration) var(--og-scene-ease);
+}
+
+.og-sentience-heading,
+.og-sentience-cards,
+.og-sentience-trace {
+  opacity: 0;
+  transition:
+    opacity .78s var(--og-scene-ease),
+    transform var(--og-scene-duration) var(--og-scene-ease);
+}
+
+.og-sentience-heading { transform: translate3d(0, 14px, 0); }
+.og-sentience-cards { transform: translate3d(0, 20px, 0); }
+.og-sentience-trace { transform: scaleX(.9); transform-origin: 50% 38%; }
+
+.og-hero[data-scene="entering"] .og-hero-copy,
+.og-hero[data-scene="analysis"] .og-hero-copy {
+  opacity: .07;
+  filter: none;
+  transform: translate3d(-5vw, 0, 0) scale(.965);
+}
+
+.og-hero[data-scene="entering"] .og-hero-hud--side,
+.og-hero[data-scene="analysis"] .og-hero-hud--side,
+.og-hero[data-scene="entering"] .og-hero-stats,
+.og-hero[data-scene="analysis"] .og-hero-stats { opacity: .18; }
+
+.og-hero[data-scene="entering"] .og-sentience-panel,
+.og-hero[data-scene="analysis"] .og-sentience-panel {
+  opacity: 1;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+}
+
+.og-hero[data-scene="analysis"] .og-sentience-panel { pointer-events: auto; }
+
+.og-hero[data-scene="entering"] .og-sentience-heading,
+.og-hero[data-scene="analysis"] .og-sentience-heading,
+.og-hero[data-scene="entering"] .og-sentience-cards,
+.og-hero[data-scene="analysis"] .og-sentience-cards {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.og-hero[data-scene="entering"] .og-sentience-cards { transition-delay: .1s; }
+.og-hero[data-scene="analysis"] .og-sentience-cards { transition-delay: 0s; }
+
+.og-hero[data-scene="entering"] .og-sentience-trace,
+.og-hero[data-scene="analysis"] .og-sentience-trace {
+  opacity: .46;
+  transform: scaleX(1);
+}
+
+.og-hero[data-scene="leaving"] .og-hero-copy {
+  opacity: 1;
+  filter: none;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.og-hero[data-scene="leaving"] .og-hero-hud--side,
+.og-hero[data-scene="leaving"] .og-hero-stats { opacity: 1; }
+
+.og-hero[data-scene="leaving"] .og-sentience-panel {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(0, -14px, 0);
+}
+
+.og-hero[data-scene="leaving"] .og-sentience-heading,
+.og-hero[data-scene="leaving"] .og-sentience-cards {
+  opacity: 0;
+  transform: translate3d(0, -10px, 0);
+  transition-delay: 0s;
+}
+
+.og-hero[data-scene="leaving"] .og-sentience-trace {
+  opacity: 0;
+  transform: scaleX(1.06);
+}
+
+@media (max-width: 767.98px) {
+  .og-hero[data-scene="entering"] .og-hero-copy,
+  .og-hero[data-scene="analysis"] .og-hero-copy {
+    transform: translate3d(-1.6rem, 0, 0) scale(.97);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .og-hero-copy,
+  .og-hero-hud--side,
+  .og-hero-stats,
+  .og-sentience-panel,
+  .og-sentience-heading,
+  .og-sentience-cards,
+  .og-sentience-trace { transition: none !important; }
+}
