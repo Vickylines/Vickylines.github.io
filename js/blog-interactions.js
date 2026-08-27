@@ -12,6 +12,7 @@
     url: 'https://qjtwjkylnzgsbmovnweo.supabase.co',
     publishableKey: 'sb_publishable_zEWw-_oMnu7HARuu8vqqkA_n8J8uo05'
   };
+  var REQUEST_TIMEOUT_MS = 15000;
 
   // 创建一个 DOM 元素，并按需补上类名和纯文本。使用 textContent 可避免把用户内容当成 HTML。
   function element(tag, className, text) {
@@ -70,7 +71,8 @@
 
   // 调用 Supabase 的数据库函数。name 和 payload 字段属于线上数据契约，不能随皮肤改名。
   async function cloudRpc(name, payload) {
-    var response = await fetch(CLOUD_CONFIG.url + '/rest/v1/rpc/' + name, {
+    var controller = typeof AbortController === 'function' ? new AbortController() : null;
+    var options = {
       method: 'POST',
       headers: {
         apikey: CLOUD_CONFIG.publishableKey,
@@ -78,10 +80,17 @@
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(payload)
-    });
+    };
+    if (controller) options.signal = controller.signal;
+    var timeoutId = controller ? window.setTimeout(function() { controller.abort(); }, REQUEST_TIMEOUT_MS) : null;
 
-    if (!response.ok) throw new Error(await response.text());
-    return response.json();
+    try {
+      var response = await fetch(CLOUD_CONFIG.url + '/rest/v1/rpc/' + name, options);
+      if (!response.ok) throw new Error(await response.text());
+      return response.json();
+    } finally {
+      if (timeoutId !== null) window.clearTimeout(timeoutId);
+    }
   }
 
   // 把成功与失败都转换成普通结果，避免一个接口失败时丢掉另一个接口已经取得的数据。

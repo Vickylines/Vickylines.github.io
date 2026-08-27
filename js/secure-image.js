@@ -6,6 +6,7 @@
    */
   const encoder = new TextEncoder();
   const encryptedFiles = new Map();
+  const REQUEST_TIMEOUT_MS = 15000;
 
   // 加密 JSON 用 Base64 保存二进制字段，这里把它还原为 Web Crypto 可接收的字节数组。
   const base64ToBytes = (value) => {
@@ -37,10 +38,17 @@
   // 同一密文只下载一次；网络失败会清掉缓存，下一次提交仍可重试。
   function loadEncrypted(url) {
     if (!encryptedFiles.has(url)) {
-      const request = fetch(url, { cache: 'no-store' })
+      const controller = typeof AbortController === 'function' ? new AbortController() : null;
+      const options = { cache: 'no-store' };
+      if (controller) options.signal = controller.signal;
+      const timeoutId = controller ? window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS) : null;
+      const request = fetch(url, options)
         .then((response) => {
           if (!response.ok) throw new Error('Could not load encrypted image');
           return response.json();
+        })
+        .finally(() => {
+          if (timeoutId !== null) window.clearTimeout(timeoutId);
         })
         .catch((error) => {
           encryptedFiles.delete(url);

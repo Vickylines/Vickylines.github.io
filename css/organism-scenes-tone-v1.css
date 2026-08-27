@@ -1,5 +1,0 @@
-/* 叙事状态的后景标题：从 7% 提到 11%，保留水印层级但让字形更完整。 */
-.og-hero[data-scene="entering"] .og-hero-copy,
-.og-hero[data-scene="analysis"] .og-hero-copy {
-  opacity: .11;
-}
