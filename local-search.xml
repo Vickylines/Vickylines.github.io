@@ -64,33 +64,6 @@
   
   
   <entry>
-    <title>关于搭建hostdare家的vps技巧</title>
-    <link href="/2026/08/03/%E5%85%B3%E4%BA%8E%E6%90%AD%E5%BB%BAhostdare%E5%AE%B6%E7%9A%84vps%E6%8A%80%E5%B7%A7/"/>
-    <url>/2026/08/03/%E5%85%B3%E4%BA%8E%E6%90%AD%E5%BB%BAhostdare%E5%AE%B6%E7%9A%84vps%E6%8A%80%E5%B7%A7/</url>
-    
-    <content type="html"><![CDATA[<p>ssh root@<em>.</em>.<em>.</em> -p 22<br>通过ssh远程连接大洋彼岸的vps，默认端口22，<em>.</em>.<em>.<em>为这台vps的ip地址<br>首次连接可以通过VERSION&#x3D;1.2.2 &amp;&amp; bash &lt;(curl -Ls <a href="https://raw.githubusercontent.com/bulianglin/demo/main/s-ui-install.sh">https://raw.githubusercontent.com/bulianglin/demo/main/s-ui-install.sh</a>) $VERSION这串指令安装基于sing-box的s-ui面板<br>需记下对应的账户名，密码以便后续登录<br>通过ssh -L 2095:127.0.0.1:2095 root@</em>.</em>.*.*这串命令来实现本地访问，防止GFW识别流量特证封锁ip<br>最小化命令行，在浏览器中打开127.0.0.1:2095，输入刚才记下的账户名密码，登录后台管理<br>此时你就可以对这台vps进行出入站管理，通常vps物理位置位于海外，你无需进行出站配置<br>建议入站配置选择目前最新的vless+reality或者tuic<br>具体的大致方向就在这，至于被GFW封锁问题，可以套cdn解决，在这就不过多赘述了<br>欢迎大家通过邮箱给我留言，我很乐意解决你们的问题<br><img src="/img/关于搭建hostdare家的vps技巧1.png" width="830" height="384" alt="HostDare VPS 配置截图 1" style="display: block; width: 100%; height: auto;"><br><img src="/img/关于搭建hostdare家的vps技巧2.png" width="833" height="438" alt="HostDare VPS 配置截图 2" style="display: block; width: 100%; height: auto;"><br><img src="/img/关于搭建hostdare家的vps技巧3.png" width="2309" height="988" alt="HostDare VPS 配置截图 3" style="display: block; width: 100%; height: auto;"></p>]]></content>
-    
-    
-    <categories>
-      
-      <category>折腾</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>学习</tag>
-      
-      <tag>技术</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>南通市崇川区天气最高36°最低27°</title>
     <link href="/2026/08/03/%E5%8D%97%E9%80%9A%E5%B8%82%E5%B4%87%E5%B7%9D%E5%8C%BA%E5%A4%A9%E6%B0%94%E6%9C%80%E9%AB%9836%C2%B0%E6%9C%80%E4%BD%8E27%C2%B0/"/>
     <url>/2026/08/03/%E5%8D%97%E9%80%9A%E5%B8%82%E5%B4%87%E5%B7%9D%E5%8C%BA%E5%A4%A9%E6%B0%94%E6%9C%80%E9%AB%9836%C2%B0%E6%9C%80%E4%BD%8E27%C2%B0/</url>
