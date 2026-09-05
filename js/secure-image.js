@@ -71,8 +71,15 @@
       continue;
     }
     container.dataset.secureImageReady = 'true';
+    if (!window.crypto || !window.crypto.subtle) {
+      error.textContent = '当前环境不支持本地解密，请使用支持 HTTPS 的浏览器访问。';
+      error.hidden = false;
+      continue;
+    }
+    button.disabled = false;
     let objectUrl = '';
     let unlocking = false;
+    const buttonLabel = button.textContent;
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
@@ -80,6 +87,8 @@
       unlocking = true;
       error.hidden = true;
       button.disabled = true;
+      button.textContent = '正在解锁…';
+      form.setAttribute('aria-busy', 'true');
       try {
         const encrypted = await loadEncrypted(encryptedUrl);
         const bytes = await decryptImage(input.value, encrypted);
@@ -95,6 +104,8 @@
       } finally {
         unlocking = false;
         button.disabled = false;
+        button.textContent = buttonLabel;
+        form.removeAttribute('aria-busy');
       }
     });
 

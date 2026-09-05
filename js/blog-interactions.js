@@ -87,7 +87,7 @@
     try {
       var response = await fetch(CLOUD_CONFIG.url + '/rest/v1/rpc/' + name, options);
       if (!response.ok) throw new Error(await response.text());
-      return response.json();
+      return await response.json();
     } finally {
       if (timeoutId !== null) window.clearTimeout(timeoutId);
     }
@@ -107,25 +107,31 @@
     var article = document.querySelector('article.post-content');
     if (!article || article.querySelector('.post-pulse')) return;
 
-    // pathname 是数据库中的文章主键组成部分，必须保留原样（包括中文编码和末尾斜杠）。
-    var path = window.location.pathname;
-    var state = { views: 0, likes: 0, liked: false, comments: [] };
+    // 使用构建时的永久链接，令 /index.html 别名也关联原有的编码路径和末尾斜杠。
+    var path = article.dataset.postPath
+      ? new URL(article.dataset.postPath, window.location.href).pathname
+      : window.location.pathname;
+    var state = { views: null, likes: null, liked: false, comments: null };
+    var loading = true;
+    var liking = false;
+    var submitting = false;
     var box = element('section', 'post-pulse');
     box.setAttribute('aria-label', '文章互动');
     box.innerHTML =
       '<div class="pulse-header">' +
-        '<div><span class="pulse-kicker">RESPONSE CHANNEL</span><strong>回应这份记录</strong></div>' +
-        '<span class="pulse-status">正在连接互动区…</span>' +
+        '<div><strong>留下你的想法</strong></div>' +
+        '<span class="pulse-status" role="status">正在加载评论…</span>' +
       '</div>' +
       '<div class="pulse-actions">' +
-        '<button class="pulse-button" type="button" data-action="like" aria-pressed="false">♡ <span>喜欢 0</span></button>' +
-        '<span class="pulse-button" aria-label="浏览量">◉ <span>浏览 0</span></span>' +
+        '<button class="pulse-button" type="button" data-action="like" aria-pressed="false">♡ <span>喜欢 —</span></button>' +
+        '<span class="pulse-button" aria-label="浏览量"><span>浏览 —</span></span>' +
       '</div>' +
       '<form class="pulse-comment-form">' +
         '<p class="pulse-identity">以本设备的匿名代号发布 · 最多 500 字</p>' +
-        '<textarea name="comment" maxlength="500" required placeholder="留下一个真实的回应…" aria-label="评论内容"></textarea>' +
-        '<button class="pulse-submit" type="submit">发送回应 <span aria-hidden="true">↗</span></button>' +
+        '<textarea name="comment" maxlength="500" required placeholder="分享你的想法…" aria-label="评论内容"></textarea>' +
+        '<button class="pulse-submit" type="submit">发表评论</button>' +
       '</form>' +
+      '<button class="text-button" data-action="retry" type="button" hidden>重新加载评论与统计</button>' +
       '<div class="pulse-comments" aria-live="polite"></div>';
 
     article.appendChild(box);
@@ -138,6 +144,7 @@
     var form = box.querySelector('form');
     var textarea = form.querySelector('textarea');
     var submit = form.querySelector('button');
+    var retry = box.querySelector('[data-action="retry"]');
 
     // 初始状态返回前不接受写操作，避免旧的初始化结果覆盖用户刚完成的点赞或评论。
     likeButton.disabled = true;
@@ -150,15 +157,16 @@
 
     // 根据内存中的 state 一次性刷新点赞、浏览量和评论列表。
     function render() {
-      likeCount.textContent = '喜欢 ' + state.likes;
-      viewCount.textContent = '浏览 ' + state.views;
+      likeCount.textContent = '喜欢 ' + (state.likes === null ? '—' : state.likes);
+      viewCount.textContent = '浏览 ' + (state.views === null ? '—' : state.views);
       likeButton.classList.toggle('is-liked', state.liked);
       likeButton.setAttribute('aria-pressed', String(state.liked));
       likeButton.firstChild.textContent = state.liked ? '♥ ' : '♡ ';
       comments.innerHTML = '';
 
+      if (state.comments === null) return;
       if (!state.comments.length) {
-        comments.appendChild(element('p', 'pulse-empty', '频道里还没有回应。第一句可以很短。'));
+        comments.appendChild(element('p', 'pulse-empty', '还没有评论，欢迎留下第一条想法。'));
         return;
       }
 
@@ -183,48 +191,64 @@
       likeButton.disabled = true;
       textarea.disabled = true;
       submit.disabled = true;
-      setStatus('LOCAL MODE · 不写入线上数据');
+      setStatus('本地预览，评论与统计暂不可用');
       render();
       return;
     }
 
     var id = visitorId();
     // 首次进入文章时并行登记浏览和读取评论；两项独立落地，部分失败也保留成功结果。
-    Promise.all([
-      settle(cloudRpc('record_blog_view', { p_post_path: path, p_visitor_id: id })),
-      settle(cloudRpc('get_blog_comments', { p_post_path: path }))
-    ]).then(function(results) {
-      var statsResult = results[0];
-      var commentsResult = results[1];
+    function loadInitial() {
+      loading = true;
+      likeButton.disabled = true;
+      submit.disabled = true;
+      retry.disabled = true;
+      setStatus('正在加载评论…');
+      return Promise.all([
+        settle(cloudRpc('record_blog_view', { p_post_path: path, p_visitor_id: id })),
+        settle(cloudRpc('get_blog_comments', { p_post_path: path }))
+      ]).then(function(results) {
+        var statsResult = results[0];
+        var commentsResult = results[1];
+        statsResult.ok = statsResult.ok && Array.isArray(statsResult.value) && Boolean(statsResult.value[0]);
+        commentsResult.ok = commentsResult.ok && Array.isArray(commentsResult.value);
 
-      if (statsResult.ok) {
-        var statsRows = Array.isArray(statsResult.value) ? statsResult.value : [];
-        var stats = statsRows[0] || {};
-        state.views = Number(stats.view_count || 0);
-        state.likes = Number(stats.like_count || 0);
-        state.liked = Boolean(stats.liked);
-      }
-      if (commentsResult.ok) {
-        state.comments = Array.isArray(commentsResult.value) ? commentsResult.value : [];
-      }
+        if (statsResult.ok) {
+          var stats = statsResult.value[0];
+          state.views = Number(stats.view_count || 0);
+          state.likes = Number(stats.like_count || 0);
+          state.liked = Boolean(stats.liked);
+        }
+        if (commentsResult.ok) state.comments = commentsResult.value;
 
-      setStatus(statsResult.ok && commentsResult.ok
-        ? 'CHANNEL ONLINE'
-        : (statsResult.ok || commentsResult.ok ? 'CHANNEL PARTIAL · 部分数据稍后重试' : 'CHANNEL OFFLINE · 稍后再试'));
-      render();
-      likeButton.disabled = false;
-      submit.disabled = false;
+        setStatus(statsResult.ok && commentsResult.ok
+          ? '评论公开可见'
+          : (statsResult.ok || commentsResult.ok ? '部分数据未能加载，请重试' : '暂时无法连接，请重试'));
+        render();
+        loading = false;
+        likeButton.disabled = !statsResult.ok;
+        submit.disabled = false;
+        retry.hidden = statsResult.ok && commentsResult.ok;
+        retry.disabled = false;
+      });
+    }
+    loadInitial();
+    retry.addEventListener('click', function() {
+      if (!loading && !liking && !submitting) loadInitial();
     });
 
     // 点赞采用“切换”语义：同一设备再次点击会取消点赞。
     likeButton.addEventListener('click', async function() {
+      if (loading || liking || state.likes === null) return;
+      liking = true;
       likeButton.disabled = true;
       try {
         var result = await cloudRpc('toggle_blog_like', {
           p_post_path: path,
           p_visitor_id: id
         });
-        var data = result[0] || {};
+        if (!Array.isArray(result) || !result[0]) throw new Error('Invalid like result');
+        var data = result[0];
         state.liked = Boolean(data.liked);
         state.likes = Number(data.like_count || 0);
         setStatus('已同步');
@@ -232,6 +256,7 @@
       } catch (error) {
         setStatus('喜欢未能同步 · 稍后再试');
       } finally {
+        liking = false;
         likeButton.disabled = false;
       }
     });
@@ -239,10 +264,13 @@
     // 提交评论成功后重新拉取列表，以数据库结果为准，不在前端伪造成功状态。
     form.addEventListener('submit', async function(event) {
       event.preventDefault();
+      if (loading || submitting) return;
       var content = textarea.value.trim();
       if (!content) return;
 
+      submitting = true;
       submit.disabled = true;
+      submit.textContent = '正在发表…';
       try {
         await cloudRpc('submit_blog_comment', {
           p_post_path: path,
@@ -250,23 +278,29 @@
           p_nickname: null,
           p_content: content
         });
-        textarea.value = '';
-        setStatus('回应已公开 · 正在刷新列表…');
+        // The reader may have started another draft while this request was in flight.
+        if (textarea.value.trim() === content) textarea.value = '';
+        setStatus('评论已发表，正在刷新列表…');
         try {
-          state.comments = await cloudRpc('get_blog_comments', { p_post_path: path });
-          setStatus('回应已公开');
+          var refreshed = await cloudRpc('get_blog_comments', { p_post_path: path });
+          if (!Array.isArray(refreshed)) throw new Error('Invalid comments result');
+          state.comments = refreshed;
+          setStatus('评论已发表');
           render();
         } catch (refreshError) {
           // 写入已经成功，刷新失败不能误报为“提交失败”，否则用户重试会产生重复评论。
-          setStatus('回应已公开 · 列表稍后刷新');
+          setStatus('评论已发表，列表刷新失败，请重新加载');
+          retry.hidden = false;
         }
       } catch (error) {
         var message = String(error);
         setStatus(/blocked content/i.test(message)
           ? '内容未能发布 · 请调整后再试'
-          : (/rate limit/i.test(message) ? '发送太快 · 请稍后再试' : '回应提交失败 · 稍后再试'));
+          : (/rate limit/i.test(message) ? '发送太快，请稍后再试' : '评论提交失败，请稍后再试'));
       } finally {
+        submitting = false;
         submit.disabled = false;
+        submit.textContent = '发表评论';
       }
     });
   }

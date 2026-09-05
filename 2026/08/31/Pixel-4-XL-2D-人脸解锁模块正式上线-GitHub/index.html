@@ -1,399 +1,69 @@
-
-
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=light>
-
-
-
+<html lang="zh-CN" data-page="post">
 <head>
-  <meta charset="UTF-8">
-
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
-  <link rel="icon" href="/img/fluid.png">
-  
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#ffffff">
-  <meta name="author" content="hpkp">
-  <meta name="keywords" content="日常, 技术, 随笔, 信号档案">
+  <title>Pixel 4 XL 2D 人脸解锁模块正式上线 GitHub · hpkp</title>
+  <meta name="description" content="折腾了好一阵子的 Pixel 4 XL 2D 人脸解锁模块 ，现在终于整理完成并上线 GitHub。源码、APK、安装说明、兼容性记录和测试报告都已经公开，感兴趣的朋友可以直接下载体验，也欢迎一起改进。 项目地址： Vickylines/Pixel4xl-2DFaceUnlock 最新版本： Pix…">
+  <meta property="og:title" content="Pixel 4 XL 2D 人脸解锁模块正式上线 GitHub">
+  <meta property="og:description" content="折腾了好一阵子的 Pixel 4 XL 2D 人脸解锁模块 ，现在终于整理完成并上线 GitHub。源码、APK、安装说明、兼容性记录和测试报告都已经公开，感兴趣的朋友可以直接下载体验，也欢迎一起改进。 项目地址： Vickylines/Pixel4xl-2DFaceUnlock 最新版本： Pix…">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="hpkp 的生活与技术笔记">
+  <meta property="og:url" content="https://blog.hpkp.org/2026/08/31/Pixel-4-XL-2D-%E4%BA%BA%E8%84%B8%E8%A7%A3%E9%94%81%E6%A8%A1%E5%9D%97%E6%AD%A3%E5%BC%8F%E4%B8%8A%E7%BA%BF-GitHub/">
+  <meta property="og:image" content="https://blog.hpkp.org/img/hpkp-avatar.png">
+  <meta name="twitter:card" content="summary">
+  <meta property="article:published_time" content="2026-08-31T12:34:00+08:00">
+  <link rel="canonical" href="https://blog.hpkp.org/2026/08/31/Pixel-4-XL-2D-%E4%BA%BA%E8%84%B8%E8%A7%A3%E9%94%81%E6%A8%A1%E5%9D%97%E6%AD%A3%E5%BC%8F%E4%B8%8A%E7%BA%BF-GitHub/">
   
-    <meta name="description" content="折腾了好一阵子的 Pixel 4 XL 2D 人脸解锁模块，现在终于整理完成并上线 GitHub。源码、APK、安装说明、兼容性记录和测试报告都已经公开，感兴趣的朋友可以直接下载体验，也欢迎一起改进。  项目地址：Vickylines&#x2F;Pixel4xl-2DFaceUnlock最新版本：Pixel2DFaceUnlock v0.8.0">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Pixel 4 XL 2D 人脸解锁模块正式上线 GitHub">
-<meta property="og:url" content="https://blog.hpkp.org/2026/08/31/Pixel-4-XL-2D-%E4%BA%BA%E8%84%B8%E8%A7%A3%E9%94%81%E6%A8%A1%E5%9D%97%E6%AD%A3%E5%BC%8F%E4%B8%8A%E7%BA%BF-GitHub/">
-<meta property="og:site_name" content="hpkp 的生活与技术笔记">
-<meta property="og:description" content="折腾了好一阵子的 Pixel 4 XL 2D 人脸解锁模块，现在终于整理完成并上线 GitHub。源码、APK、安装说明、兼容性记录和测试报告都已经公开，感兴趣的朋友可以直接下载体验，也欢迎一起改进。  项目地址：Vickylines&#x2F;Pixel4xl-2DFaceUnlock最新版本：Pixel2DFaceUnlock v0.8.0">
-<meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2026-08-31T04:34:00.000Z">
-<meta property="article:modified_time" content="2026-08-31T04:34:47.446Z">
-<meta property="article:author" content="hpkp">
-<meta property="article:tag" content="Android">
-<meta property="article:tag" content="LSPosed">
-<meta property="article:tag" content="Pixel 4 XL">
-<meta property="article:tag" content="开源">
-<meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/img/hpkp-avatar.png">
+  <script src="/js/appearance.js"></script>
+  <link rel="stylesheet" href="/css/site.css">
+  <script src="/js/site.js" defer></script>
   
-  
-  
-    <link rel="preload" href="/fonts/hpkp/encode-sans-expanded-600-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/hpkp/encode-sans-expanded-800-latin.woff2" as="font" type="font/woff2" crossorigin>
-<script>(function(){var fit=function(){var v=document.querySelector('meta[name="viewport"]');if(v&&!/viewport-fit/.test(v.content))v.setAttribute('content',v.content+', viewport-fit=cover')};fit();if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fit,{once:true});var p=location.pathname,r='page';if(/^\/(?:index\.html)?$/.test(p)||/^\/page\/[1-9]\d*\/?$/.test(p))r='home';else if(/^\/\d{4}\/\d{2}\/\d{2}\//.test(p))r='post';else if(/^\/archives(?:\/|$)/.test(p))r='archive';else if(/^\/categories\/?$/.test(p))r='categories';else if(/^\/categories\//.test(p))r='category';else if(/^\/tags\/?$/.test(p))r='tags';else if(/^\/tags\//.test(p))r='tag';else if(/^\/about\/?$/.test(p))r='about';else if(/^\/404(?:\.html)?$/.test(p))r='404';document.documentElement.setAttribute('data-hpkp-route',r);})();</script>
-
-  
-  <title>Pixel 4 XL 2D 人脸解锁模块正式上线 GitHub - hpkp 的生活与技术笔记</title>
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
-
-
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
-
-
-
-  
-<link rel="stylesheet" href="/css/hpkp-modern-v1.css">
-
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"blog.hpkp.org","root":"/","version":"1.9.9","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#596b87","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
-
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
-
-
+    <script src="/js/blog-interactions.js" defer></script>
+    
   
 <meta name="generator" content="Hexo 8.1.2"></head>
-
-
 <body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
   
-
-  <header>
-    
-
-<div class="header-inner" style="height: 34vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>hpkp</strong>
-    </a>
-
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content (desktop) -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/" target="_self">
-                <i class="iconfont icon-home-fill"></i>
-                <span>首页</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/" target="_self">
-                <i class="iconfont icon-archive-fill"></i>
-                <span>文章</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/" target="_self">
-                <i class="iconfont icon-category-fill"></i>
-                <span>分类</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/" target="_self">
-                <i class="iconfont icon-tags-fill"></i>
-                <span>标签</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/" target="_self">
-                <i class="iconfont icon-user-fill"></i>
-                <span>关于</span>
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              <i class="iconfont icon-search"></i>
-            </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
-              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
-            </a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<!-- Mobile grid menu overlay -->
-<div id="mobile-grid-menu" class="d-lg-none">
-  <div class="mobile-grid-menu-inner">
-    <div class="container">
-      <div class="row">
-        
-          
-          
-          
-          
-            <div class="col-4 mobile-grid-cell">
-              <a href="/" target="_self">
-                <div class="mobile-grid-item">
-                  <i class="iconfont icon-home-fill"></i>
-                  <span>首页</span>
-                </div>
-              </a>
-            </div>
-          
-        
-          
-          
-          
-          
-            <div class="col-4 mobile-grid-cell">
-              <a href="/archives/" target="_self">
-                <div class="mobile-grid-item">
-                  <i class="iconfont icon-archive-fill"></i>
-                  <span>文章</span>
-                </div>
-              </a>
-            </div>
-          
-        
-          
-          
-          
-          
-            <div class="col-4 mobile-grid-cell">
-              <a href="/categories/" target="_self">
-                <div class="mobile-grid-item">
-                  <i class="iconfont icon-category-fill"></i>
-                  <span>分类</span>
-                </div>
-              </a>
-            </div>
-          
-        
-          
-          
-          
-          
-            <div class="col-4 mobile-grid-cell">
-              <a href="/tags/" target="_self">
-                <div class="mobile-grid-item">
-                  <i class="iconfont icon-tags-fill"></i>
-                  <span>标签</span>
-                </div>
-              </a>
-            </div>
-          
-        
-          
-          
-          
-          
-            <div class="col-4 mobile-grid-cell">
-              <a href="/about/" target="_self">
-                <div class="mobile-grid-item">
-                  <i class="iconfont icon-user-fill"></i>
-                  <span>关于</span>
-                </div>
-              </a>
-            </div>
-          
-        
-        
-          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
-            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              <div class="mobile-grid-item">
-                <i class="iconfont icon-search"></i>
-                <span>搜索</span>
-              </div>
-            </a>
-          </div>
-        
-        
-          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
-               data-label-light="开灯"
-               data-label-dark="关灯">
-            <a href="javascript:;" aria-label="Color Toggle">
-              <div class="mobile-grid-item">
-                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
-                <span id="mobile-color-toggle-label">关灯</span>
-              </div>
-            </a>
-          </div>
-        
-      </div>
-    </div>
-  </div>
-</div>
-
-  
-
-<div id="banner" class="banner"
-     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 1)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle">Pixel 4 XL 2D 人脸解锁模块正式上线 GitHub</span>
-          
-        </div>
-
-        
-          
-  <div class="mt-3">
-    
-    
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-08-31 12:34" pubdate>
-          2026年8月31日 下午
-        </time>
-      </span>
-    
-  </div>
-
-  <div class="mt-1">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
-        
-          1.9k 字
-        
-      </span>
-    
-
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          16 分钟
-        
-      </span>
-    
-
-    
-    
-  </div>
-
-
-        
-      </div>
-
+<header class="site-header">
+  <div class="shell nav-inner">
+    <a class="brand" href="/" aria-label="hpkp，返回首页">hpkp<span class="brand-dot" aria-hidden="true">.</span></a>
+    <nav id="site-navigation" aria-label="主导航">
       
+        <a href="/" >首页</a>
+      
+        <a href="/archives/" aria-current="location">文章</a>
+      
+        <a href="/categories/" >分类</a>
+      
+        <a href="/tags/" >标签</a>
+      
+        <a href="/about/" >关于</a>
+      
+    </nav>
+    <div class="nav-tools">
+      <button class="icon-button" type="button" data-open-search aria-label="搜索文章" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg></button>
+      <button class="icon-button" type="button" id="theme-toggle" aria-label="切换外观" hidden><span class="theme-moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 13a8.5 8.5 0 0 1-9.5-9.5A8.5 8.5 0 1 0 20.5 13Z"/></svg></span><span class="theme-sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span></button>
+      <button class="icon-button menu-toggle" type="button" id="menu-toggle" aria-label="打开导航" aria-controls="site-navigation" aria-expanded="false" hidden><span class="menu-open-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14M5 16h14"/></svg></span><span class="menu-close-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"/></svg></span></button>
     </div>
   </div>
-</div>
+</header>
 
+  <main id="main-content" tabindex="-1"><header class="page-heading post-heading shell">
+  <a class="eyebrow text-link" href="/archives/">← 文章归档</a>
+  <h1 id="post-title">Pixel 4 XL 2D 人脸解锁模块正式上线 GitHub</h1>
+  <div class="post-meta"><time datetime="2026-08-31">2026 年 8 月 31 日</time><a href="/categories/%E6%8A%98%E8%85%BE/">折腾</a></div>
+</header>
 
-
-</div>
-
-  </header>
-
-  <main>
-    
-      
-
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-
-    </div>
-
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <h1 id="seo-header">Pixel 4 XL 2D 人脸解锁模块正式上线 GitHub</h1>
-            
-            
-              <div class="markdown-body">
-                
-                <p>折腾了好一阵子的 <strong>Pixel 4 XL 2D 人脸解锁模块</strong>，现在终于整理完成并上线 GitHub。源码、APK、安装说明、兼容性记录和测试报告都已经公开，感兴趣的朋友可以直接下载体验，也欢迎一起改进。</p>
+<div class="reading-layout shell ">
+  <aside class="article-toc"><details open id="article-toc"><summary>文章目录 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><nav aria-label="文章目录"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%81%9A%E8%BF%99%E4%B8%AA%E6%A8%A1%E5%9D%97"><span class="toc-text">为什么做这个模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%83%E7%8E%B0%E5%9C%A8%E8%83%BD%E5%81%9A%E4%BB%80%E4%B9%88"><span class="toc-text">它现在能做什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%82%E7%94%A8%E8%8C%83%E5%9B%B4"><span class="toc-text">适用范围</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95"><span class="toc-text">安装方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%85%E9%A1%BB%E8%AF%B4%E6%98%8E%E7%9A%84%E5%AE%89%E5%85%A8%E8%BE%B9%E7%95%8C"><span class="toc-text">必须说明的安全边界</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E"><span class="toc-text">写在最后</span></a></li></ol></nav></details></aside>
+  <article class="post-content" aria-labelledby="post-title" data-post-path="/2026/08/31/Pixel-4-XL-2D-%E4%BA%BA%E8%84%B8%E8%A7%A3%E9%94%81%E6%A8%A1%E5%9D%97%E6%AD%A3%E5%BC%8F%E4%B8%8A%E7%BA%BF-GitHub/">
+    <div class="markdown-body"><p>折腾了好一阵子的 <strong>Pixel 4 XL 2D 人脸解锁模块</strong>，现在终于整理完成并上线 GitHub。源码、APK、安装说明、兼容性记录和测试报告都已经公开，感兴趣的朋友可以直接下载体验，也欢迎一起改进。</p>
 <blockquote>
 <p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/Vickylines/Pixel4xl-2DFaceUnlock">Vickylines&#x2F;Pixel4xl-2DFaceUnlock</a><br>最新版本：<a target="_blank" rel="noopener" href="https://github.com/Vickylines/Pixel4xl-2DFaceUnlock/releases/latest">Pixel2DFaceUnlock v0.8.0</a></p>
 </blockquote>
@@ -428,411 +98,31 @@
 <h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>把项目放上 GitHub，不只是为了提供一个 APK，也希望每一项兼容判断、安全限制和测试结果都能被看见。它目前还称不上“装上就适配所有 Pixel”，但至少在已经完成验证的环境里，Pixel 4 XL 又多了一种足够顺手的日常解锁方式。</p>
 <p>欢迎提交 Issue、测试反馈或 Pull Request。尤其是 Android 10–15、其他 Pixel 型号和不同 AOSP ROM 的实测结果，会比一句简单的“支持”更有价值。</p>
 <p>项目主页：<a target="_blank" rel="noopener" href="https://github.com/Vickylines/Pixel4xl-2DFaceUnlock">https://github.com/Vickylines/Pixel4xl-2DFaceUnlock</a></p>
-
-                
-              </div>
-            
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
+</div>
+    <footer class="post-footer">
+      <p class="post-copyright">作者：hpkp · 本文采用 <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener noreferrer" target="_blank">CC BY 4.0</a> 许可协议。</p>
+      <div class="post-tags"><a href="/tags/Pixel-4-XL/">#Pixel 4 XL</a><a href="/tags/Android/">#Android</a><a href="/tags/LSPosed/">#LSPosed</a><a href="/tags/%E5%BC%80%E6%BA%90/">#开源</a></div>
+      <nav class="post-prevnext" aria-label="相邻文章">
         
-  <a href="/categories/%E6%8A%98%E8%85%BE/" class="category-chain-item">折腾</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/Pixel-4-XL/" class="print-no-link">#Pixel 4 XL</a>
-      
-        <a href="/tags/Android/" class="print-no-link">#Android</a>
-      
-        <a href="/tags/LSPosed/" class="print-no-link">#LSPosed</a>
-      
-        <a href="/tags/%E5%BC%80%E6%BA%90/" class="print-no-link">#开源</a>
-      
-    </div>
-  
+        <a href="/2026/08/04/%E5%9B%9E%E4%B8%8D%E5%8E%BB%E7%9A%84%E4%BD%95%E6%AD%A2%E6%98%AF%E6%97%B6%E9%97%B4/"><span>下一篇 →</span><strong>回不去的何止是时间</strong></a>
+      </nav>
+    </footer>
+  </article>
 </div>
-
-
-              
-  
-
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>Pixel 4 XL 2D 人脸解锁模块正式上线 GitHub</div>
-      <div>https://blog.hpkp.org/2026/08/31/Pixel-4-XL-2D-人脸解锁模块正式上线-GitHub/</div>
+</main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <p>© 2026 hpkp<span>生活与技术笔记</span></p>
+      <nav aria-label="页脚导航"><a href="/archives/">文章归档</a><a href="/about/">关于我</a><a href="#main-content">回到顶部 ↑</a></nav>
     </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>作者</div>
-          <div>hpkp</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>发布于</div>
-          <div>2026年8月31日</div>
-        </div>
-      
-      
-      
-        <div class="license-meta-item">
-          <div>许可协议</div>
-          <div>
-            
-              
-              
-                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
-                    <i class="iconfont icon-cc-by"></i>
-                  </span>
-                </a>
-              
-            
-          </div>
-        </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
-  </div>
-
-
-
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2026/08/04/%E5%9B%9E%E4%B8%8D%E5%8E%BB%E7%9A%84%E4%BD%95%E6%AD%A2%E6%98%AF%E6%97%B6%E9%97%B4/" title="回不去的何止是时间">
-                        <span class="hidden-mobile">回不去的何止是时间</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
-
-            
-          </article>
-        </div>
-      </div>
-    </div>
-
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header">
-    <i class="iconfont icon-list"></i>
-    <span>目录</span>
-  </p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
-
-
-
-  </aside>
-
-
-    </div>
-  </div>
-</div>
-
-
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-
-
-
-
-    
-
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-    
-
-    
-  </main>
-
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-      <span>hpkp</span>
-    </div>
-  
-  
-  
-</div>
-
   </footer>
-
-  <!-- Scripts -->
+  <dialog id="search-dialog" aria-labelledby="search-title" data-index="/search.json">
+    <div class="search-header"><h2 id="search-title">搜索文章</h2><button class="icon-button" type="button" data-close-search aria-label="关闭搜索"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"/></svg></button></div>
+    <label class="search-field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><span class="visually-hidden">搜索关键词</span><input type="search" id="search-input" placeholder="标题、内容或标签" autocomplete="off" autofocus></label>
+    <p id="search-status" role="status">输入关键词，找回一篇记录。</p>
+    <button type="button" class="text-button" id="search-retry" hidden>重新加载</button>
+    <ul id="search-results" aria-label="搜索结果"></ul>
+  </dialog>
   
-
-<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-
-
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
-
-
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
-
-    function isExpandAllEnabled() {
-      return CONFIG.toc && CONFIG.toc.expand_all === true;
-    }
-    function expandAllToc() {
-      if (!isExpandAllEnabled()) { return; }
-      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
-    }
-    function updateTocToggle($li, $childList) {
-      var $toggle = $li.children('.toc-toggle');
-      if ($toggle.length === 0) { return; }
-      var collapsed = $childList.hasClass('tocbot-is-collapsed');
-      $toggle
-        .toggleClass('toc-toggle-collapsed', collapsed)
-        .toggleClass('toc-toggle-expanded', !collapsed);
-    }
-    function bindTocToggle() {
-      if (!isExpandAllEnabled()) { return; }
-      jQuery('#toc-body .toc-list-item').each(function() {
-        var $li = jQuery(this);
-        var $childList = $li.children('ol');
-        if ($childList.length === 0) {
-          if ($li.children('.toc-toggle').length === 0) {
-            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
-          }
-          return;
-        }
-
-        if ($li.children('.toc-toggle').length === 0) {
-          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
-        }
-        updateTocToggle($li, $childList);
-      });
-      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        var $li = jQuery(this).parent('.toc-list-item');
-        var $childList = $li.children('ol');
-        if ($childList.length === 0) { return; }
-        $childList.toggleClass('tocbot-is-collapsed');
-        updateTocToggle($li, $childList);
-      });
-      if (!window.__tocToggleObserver) {
-        window.__tocToggleObserver = new MutationObserver(function(mutations) {
-          mutations.forEach(function(mutation) {
-            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
-            var $list = jQuery(mutation.target);
-            var $li = $list.parent('.toc-list-item');
-            if ($li.length === 0) { return; }
-            updateTocToggle($li, $list);
-          });
-        });
-        jQuery('#toc-body ol').each(function() {
-          window.__tocToggleObserver.observe(this, { attributes: true });
-        });
-      }
-    }
-    var tocConfig = Object.assign({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      scrollSmooth    : true,
-      includeTitleTags: true,
-      headingsOffset  : -boardTop,
-    }, CONFIG.toc);
-    if (isExpandAllEnabled()) {
-      tocConfig.collapseDepth = 6;
-    }
-    window.tocbot.init(tocConfig);
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
-    }
-    expandAllToc();
-    bindTocToggle();
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('tocbot' in window) {
-        tocbot.refresh();
-        var toc = jQuery('#toc');
-        if (toc.length === 0 || !tocbot) {
-          return;
-        }
-        if (toc.find('.toc-list-item').length > 0) {
-          toc.css('visibility', 'visible');
-        }
-        expandAllToc();
-        bindTocToggle();
-      }
-    });
-  });
-</script>
-
-
-  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
-
-  <script>Fluid.plugins.codeWidget();</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('anchors' in window) {
-        anchors.removeAll();
-        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-        var res = [];
-        for (var item of el) {
-          res.push('.markdown-body > ' + item.trim());
-        }
-        if (CONFIG.anchorjs.placement === 'left') {
-          anchors.options.class = 'anchorjs-link-left';
-        }
-        anchors.add(res.join(', '));
-      }
-    });
-  });
-</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
-
-
-  <script>Fluid.plugins.imageCaption();</script>
-
-  <script  src="/js/local-search.js" ></script>
-
-
-
-
-  
-<script src="/js/blog-interactions.js"></script>
-<script src="/js/hpkp-site-v1.js"></script>
-
-
-
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
-
-
-  
-
-  <noscript>
-    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
 </body>
 </html>
